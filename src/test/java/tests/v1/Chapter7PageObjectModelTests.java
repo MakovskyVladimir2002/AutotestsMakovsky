@@ -1,3 +1,5 @@
+package tests.v1;
+
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -9,8 +11,8 @@ import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@DisplayName("Chapter 8: Testing Framework Specifics")
-public class Chapter8TestingFrameworkSpecificsTests {
+@DisplayName("Chapter 7: The Page Object Model")
+public class Chapter7PageObjectModelTests {
 
     private static final String BASE_URL = "https://bonigarcia.dev/selenium-webdriver-java/";
     private WebDriver driver;
@@ -32,10 +34,17 @@ public class Chapter8TestingFrameworkSpecificsTests {
     }
 
     @Test
-    @DisplayName("Open Random Calculator page")
-    void openRandomCalculatorPage() {
-        clickLinkByText("Random calculator");
-        assertUrlEquals(BASE_URL + "random-calculator.html");
+    @DisplayName("Open Login Form page")
+    void openLoginFormPage() {
+        clickLinkByText("Login form");
+        assertUrlEquals(BASE_URL + "login-form.html");
+    }
+
+    @Test
+    @DisplayName("Open Slow Login page")
+    void openSlowLoginPage() {
+        clickLinkByText("Slow login");
+        assertUrlEquals(BASE_URL + "login-slow.html");
     }
 
     // --- Вспомогательные методы ---

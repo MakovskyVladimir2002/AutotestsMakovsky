@@ -1,3 +1,5 @@
+package tests.v1;
+
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -56,25 +58,6 @@ public class LocatorsTests {
         driver.findElement(By.xpath("//select[@name='my-select']//option[text()='Three']")).click();
         driver.findElement(By.xpath("//select[@name='my-select']//option[@value='3']")).click();
 
-//        driver.findElement(By.xpath("input[@name='my-file']")).click();
-//// Внутри конкретного селекта
-//        driver.findElement(By.cssSelector("select[name='my-select'] option[value='1']")).click();
-//
-//        // По тексту опции
-//        driver.findElement(By.xpath("//option[text()='One']")).click();
-//
-//// По значению
-//        driver.findElement(By.xpath("//option[@value='1']")).click();
-//
-//// Внутри конкретного селекта
-//        driver.findElement(By.xpath("//select[@name='my-select']/option[@value='1']")).click();
-//
-//        driver.findElement(By.xpath("//option[contains(text(), 'One')]")).click();
-//
-//        // Вторая опция (индекс начинается с 1)
-//        driver.findElement(By.xpath("//select[@name='my-select']/option[4]")).click();
-//
-//        driver.findElement(By.xpath("//input[@name='my-file']"));
     }
     @Test
     @Order(3)
