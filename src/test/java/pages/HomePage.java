@@ -11,6 +11,8 @@ public class HomePage {
     private final WebDriver driver;
     private final WebDriverWait wait;
 
+    public static final String BASE_URL = "https://bonigarcia.dev/selenium-webdriver-java/";
+
     public HomePage(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;
         this.wait = wait;

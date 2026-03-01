@@ -23,6 +23,15 @@ dependencies {
     testImplementation 'org.aspectj:aspectjweaver:1.9.22.1'
     implementation 'io.qameta.allure:allure-java-commons:2.24.0'
     implementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
+    compileOnly 'org.projectlombok:lombok:1.18.32'
+    annotationProcessor 'org.projectlombok:lombok:1.18.32'
+    testCompileOnly 'org.projectlombok:lombok:1.18.32'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.32'
+    testImplementation 'io.rest-assured:rest-assured:5.5.1'
+    testImplementation 'com.fasterxml.jackson.core:jackson-core:2.19.0'
+    testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.19.0'
+    testImplementation 'io.qameta.allure:allure-rest-assured:2.29.1'
+    testImplementation 'org.awaitility:awaitility:4.2.0'
 }
 
 test {
