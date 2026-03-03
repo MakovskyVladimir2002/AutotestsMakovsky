@@ -12,6 +12,11 @@ import org.example.makovsky_v.pageObjects.chapter_9.DataTypesPage;
 import org.example.makovsky_v.pageObjects.chapter_9.DownloadFilesPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class HomePage extends BasePage{
     public static final String BASE_URL = "https://bonigarcia.dev/selenium-webdriver-java/";
@@ -187,7 +192,12 @@ public class HomePage extends BasePage{
 
     @Step("Open A/B Testing page")
     public ABTestingPage openABTestingPage() {
-        driver.findElement(By.linkText("A/B Testing")).click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        // Находим элемент по тексту ссылки и ждем, пока он станет кликабельным
+        WebElement abTestingLink = wait.until(
+                ExpectedConditions.elementToBeClickable(By.linkText("A/B Testing"))
+        );
+        abTestingLink.click();
         return new ABTestingPage(driver);
     }
 
