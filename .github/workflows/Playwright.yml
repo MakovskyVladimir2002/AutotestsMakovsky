@@ -33,7 +33,7 @@ jobs:
       - name: Run PlaywrightTestsV2
         run: ./gradlew test --tests "tests.playwrightV2.PlaywrightTestsV2"
 
-      # Опционально: сохраняем Allure-результаты
+            # Опционально: сохраняем Allure-результаты
       - name: Archive Allure Results
         if: always()
         uses: actions/upload-artifact@v4
@@ -41,10 +41,26 @@ jobs:
           name: allure-results-playwright
           path: build/allure-results
 
-      - name: Generate and Publish Allure Report
-        if: always()
-        uses: simple-elf/allure-report-action@v1
+      # Устанавливаем Allure CLI через npm
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          allure_results: build/allure-results
-          allure_history: allure-history-playwright
-          keep_reports: 10
+          node-version: '20'
+
+      - name: Install Allure CLI
+        run: |
+          npm install -g allure-commandline@latest
+          allure --version
+
+      # Генерируем отчёт Allure
+      - name: Generate Allure Report
+        run: |
+          allure generate ./build/allure-results --clean -o ./allure-report
+
+      # Публикуем отчёт как артефакт
+      - name: Upload Allure Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: allure-report/
