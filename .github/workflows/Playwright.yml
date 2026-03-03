@@ -43,7 +43,7 @@ jobs:
 
       - name: Generate and Publish Allure Report
         if: always()
-        uses: simple-elf/allure-report-action@v2
+        uses: simple-elf/allure-report-action@v1
         with:
           allure_results: build/allure-results
           allure_history: allure-history-playwright
