@@ -41,10 +41,10 @@ jobs:
           name: allure-results-playwright
           path: build/allure-results
 
-      # Опционально: генерация и публикация Allure-отчёта
       - name: Generate and Publish Allure Report
         if: always()
-        uses: simple-elf/allure-report-action@:
+        uses: simple-elf/allure-report-action@v2
+        with:
           allure_results: build/allure-results
           allure_history: allure-history-playwright
           keep_reports: 10
