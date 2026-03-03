@@ -11,6 +11,7 @@ import org.example.makovsky_v.pageObjects.chapter_9.ABTestingPage;
 import org.example.makovsky_v.pageObjects.chapter_9.DataTypesPage;
 import org.example.makovsky_v.pageObjects.chapter_9.DownloadFilesPage;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -194,10 +195,16 @@ public class HomePage extends BasePage{
     public ABTestingPage openABTestingPage() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         // Находим элемент по тексту ссылки и ждем, пока он станет кликабельным
-        WebElement abTestingLink = wait.until(
-                ExpectedConditions.elementToBeClickable(By.linkText("A/B Testing"))
-        );
-        abTestingLink.click();
+        WebElement abTestingLink = wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText("A/B Testing")));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center', behavior: 'smooth'});", abTestingLink);
+
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt(); // Корректная обработка прерывания
+            throw new RuntimeException("Interrupted while waiting after scroll", e);
+        }
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", abTestingLink);
         return new ABTestingPage(driver);
     }
 
