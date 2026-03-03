@@ -13,7 +13,7 @@ import java.net.URL;
 import java.time.Duration;
 import java.util.Map;
 
-public class BaseTest {
+class BaseTest {
     WebDriver driver;
 
     @BeforeEach
@@ -25,26 +25,18 @@ public class BaseTest {
 
     @AfterEach
     void tearDown() {
-        if (driver != null) { // Проверяем, что driver был инициализирован
-            driver.quit();
-        }
+        driver.quit();
     }
 
     private void initDriver() {
         String remoteUrl = System.getenv("SELENIUM_REMOTE_URL");
-
-        // Добавляем вложение только если remoteUrl не null
-        if (remoteUrl != null) {
-            Allure.addAttachment("remoteUrl", remoteUrl);
-        }
-
-        // Используем && (И) для безопасной проверки
-        if (remoteUrl != null && !remoteUrl.isEmpty()) {
+        Allure.addAttachment("remoteUrl", remoteUrl);
+        if (remoteUrl != null || !remoteUrl.isEmpty()) {
             ChromeOptions options = new ChromeOptions();
-            options.addArguments("--headless");
-            options.addArguments("--disable-gpu");
-            options.addArguments("--no-sandbox");
-            options.addArguments("--disable-dev-shm-usage");
+            options.addArguments("--headless");  // Add headless mode
+            options.addArguments("--disable-gpu"); // Switch off GPU, because we don't need it in headless mode
+            options.addArguments("--no-sandbox"); // Switch off sandbox to prevent access rights issues
+            options.addArguments("--disable-dev-shm-usage"); // Use /tmp instead of /dev/shm
             options.setCapability("goog:loggingPrefs", Map.of("browser", "ALL"));
             try {
                 driver = new RemoteWebDriver(new URL(remoteUrl), options);
@@ -54,5 +46,6 @@ public class BaseTest {
         } else {
             driver = new ChromeDriver();
         }
-}
     }
+}
+
