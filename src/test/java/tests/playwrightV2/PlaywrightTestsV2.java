@@ -6,6 +6,7 @@ import pagesPlaywright.HomePage;
 import pagesPlaywright.WebFormPage;
 
 import java.nio.file.Paths;
+import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,7 +21,11 @@ public class PlaywrightTestsV2 {
     @BeforeAll
     static void launchBrowser() {
         playwright = Playwright.create();
-        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
+        browser = playwright.chromium().launch(
+                new BrowserType.LaunchOptions()
+                        .setHeadless(true) // Измените на true в CI/CD
+                        .setArgs(List.of("--no-sandbox", "--disable-dev-shm-usage")) //  Для стабильности в Docker
+        );
     }
 
     @AfterAll
@@ -40,8 +45,9 @@ public class PlaywrightTestsV2 {
 
     @AfterEach
     void closeContext() {
+        String testName = "trace_" + System.currentTimeMillis() + ".zip"; // Уникальное имя
         context.tracing().stop(new Tracing.StopOptions()
-                .setPath(Paths.get("trace.zip")));
+                .setPath(Paths.get(testName)));
         context.close();
     }
 
