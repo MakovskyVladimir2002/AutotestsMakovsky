@@ -1,22 +1,50 @@
 name: Playwright Tests
+
 on:
-  push:
-    branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
+  workflow_dispatch:
+
 jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+
       - uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
           java-version: '25'
-      - name: Build & Install
-        run: mvn -B install -D skipTests --no-transfer-progress
-      - name: Ensure browsers are installed
-        run: mvn exec:java -e -D exec.mainClass=com.microsoft.playwright.CLI -D exec.args="install --with-deps"
-      - name: Run tests
-        run: mvn test
+
+      # Устанавливаем Gradle через gradle/actions/setup-gradle
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+
+      # Предоставляем права на выполнение скрипта gradlew
+      - name: Grant execute permission for Gradle
+        run: chmod +x gradlew
+
+      # Устанавливаем Playwright браузеры
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+        # Если вы хотите использовать Gradle для установки, можно попробовать:
+        # run: ./gradlew playwright:install
+
+      # Запускаем ТОЛЬКО тесты из класса PlaywrightTestsV2
+      - name: Run PlaywrightTestsV2
+        run: ./gradlew test --tests "tests.playwrightV2.PlaywrightTestsV2"
+
+      # Опционально: сохраняем Allure-результаты
+      - name: Archive Allure Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-playwright
+          path: build/allure-results
+
+      # Опционально: генерация и публикация Allure-отчёта
+      - name: Generate and Publish Allure Report
+        if: always()
+        uses: simple-elf/allure-report-action@:
+          allure_results: build/allure-results
+          allure_history: allure-history-playwright
+          keep_reports: 10
