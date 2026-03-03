@@ -199,7 +199,7 @@ public class HomePage extends BasePage{
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center', behavior: 'smooth'});", abTestingLink);
 
         try {
-            Thread.sleep(5000);
+            Thread.sleep(500);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt(); // Корректная обработка прерывания
             throw new RuntimeException("Interrupted while waiting after scroll", e);
