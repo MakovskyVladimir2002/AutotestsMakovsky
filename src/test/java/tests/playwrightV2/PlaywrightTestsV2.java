@@ -59,6 +59,9 @@ public class PlaywrightTestsV2 {
     void openSiteTest() {
         HomePage homePage = new HomePage(page);
         homePage.open();
+        page.screenshot(new Page.ScreenshotOptions()
+                .setPath(Paths.get("build/screenshots/main_page.png")) // или любая другая директория
+                .setFullPage(true));
         assertEquals("Hands-On Selenium WebDriver with Java", page.title());
     }
 
@@ -69,6 +72,9 @@ public class PlaywrightTestsV2 {
         homePage.open();
         WebFormPage webFormPage = homePage.openWebFormPage();
         webFormPage.submit();
+        page.screenshot(new Page.ScreenshotOptions()
+                .setPath(Paths.get("build/screenshots/form_submitted.png"))
+                .setFullPage(true));
         assertThat(page.url()).contains("https://bonigarcia.dev/selenium-webdriver-java/submitted-form.html");
     }
 
@@ -78,7 +84,13 @@ public class PlaywrightTestsV2 {
         HomePage homePage = new HomePage(page);
         homePage.open();
         WebFormPage webFormPage = homePage.openWebFormPage();
+        page.screenshot(new Page.ScreenshotOptions()
+                .setPath(Paths.get("build/screenshots/before_checkbox_check.png"))
+                .setFullPage(true));
         boolean isChecked = webFormPage.isCheckboxChecked();
+        page.screenshot(new Page.ScreenshotOptions()
+                .setPath(Paths.get("build/screenshots/after_checkbox_check.png"))
+                .setFullPage(true));
         assertTrue(isChecked);
     }
 
@@ -88,8 +100,14 @@ public class PlaywrightTestsV2 {
         HomePage homePage = new HomePage(page);
         homePage.open();
         WebFormPage webFormPage = homePage.openWebFormPage();
+        page.screenshot(new Page.ScreenshotOptions()
+                .setPath(Paths.get("build/screenshots/before_dropdown_select.png"))
+                .setFullPage(true));
         boolean isOptionSelected = webFormPage.isFirstOptionSelected("2");
         assertTrue(isOptionSelected);
+        page.screenshot(new Page.ScreenshotOptions()
+                .setPath(Paths.get("build/screenshots/after_dropdown_select.png"))
+                .setFullPage(true));
     }
 
     @Test
@@ -98,9 +116,17 @@ public class PlaywrightTestsV2 {
         HomePage homePage = new HomePage(page);
         homePage.open();
         WebFormPage webFormPage = homePage.openWebFormPage();
+        page.screenshot(new Page.ScreenshotOptions()
+                .setPath(Paths.get("build/screenshots/before_text_input.png"))
+                .setFullPage(true));
         webFormPage.sendText();
+        page.screenshot(new Page.ScreenshotOptions()
+                .setPath(Paths.get("build/screenshots/after_text_input.png"))
+                .setFullPage(true));
         String textInput = webFormPage.getTextInput();
         assertEquals("my text",textInput);
+        page.screenshot(new Page.ScreenshotOptions()
+                .setPath(Paths.get("build/screenshots/after_text_verification.png"))
+                .setFullPage(true));
     }
-
 }
